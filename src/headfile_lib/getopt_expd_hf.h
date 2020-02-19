@@ -1,4 +1,70 @@
-#include "getopt_expd.h"
+/*
+ * C++ library of a expanded version of the getopt library.
+ * 
+ * This is a head file library version of the getopt_expd library
+ *
+ * Copyright (c) 2019-2029 Yi Zhang (zhangyiss@icloud.com)
+ * All rights reserved.
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ * THE SOFTWARE.
+ */
+
+#ifndef _GETOPT_EXPD_HF_H
+#define _GETOPT_EXPD_HF_H
+#include "iostream"
+#include "string.h"
+#include "unistd.h"
+#include "sys/ioctl.h"
+#include "sstream"
+#include "getopt.h"
+
+/**
+ * @brief      Expanded version of the 'option' structure.
+ * 
+ * This library is built upon the getopt library developed by the GNU. We 
+ * expand the 'option' structure to include some helpful information. Since
+ * we need to keep the new structure aggregate, we declare our 'expd_option'
+ * structure just as the original 'option' structure at beginning, followed 
+ * some new variables.
+ */
+struct expd_option
+{
+	/**
+	 * The first four variables are as the same as the original 'option' structure
+	 * that is defined in getopt.h. Their types and orders must not be changed to
+	 * ensure they can be accessed by the 'getopt' functions correctly.
+	 */
+	const char *name;
+	int has_arg;
+	int *flag;
+	int val;
+	/**
+	 * The following three variables we added here are mainly used to generate the
+	 * 'help' page. The variable 'info' represents a short message that explains what
+	 * the option does. 'format' express the argument's format that the option takes.
+	 * Additionally, The variable 'manda' indicates whether the option is mandatory 
+	 * or optional.
+	 */
+	const char *info;
+	const char *format;
+	bool manda;
+};
 
 /**
  * @brief      Convert pointer types and call for the original getopt_long function.
@@ -236,3 +302,5 @@ void display_line(int f_space, int b_space, int hang_space, const winsize *ws, s
 	std::cerr << std::endl;
 	return;
 }
+
+#endif //_GETOPT_EXPD_HF_H

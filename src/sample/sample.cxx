@@ -3,8 +3,8 @@
 
 int main(int argc, char *argv[])
 {
-	char mesh_file[1024];
-	char model_file[1024];
+	char mesh_file[1024] = "NULL";
+	char model_file[1024] = "NULL";
 	char gmsh_file[1024] = "NULL";
 	char vtk_file[1024] = "NULL";
 	char eledata_name[1024] = "Untitled";
@@ -44,6 +44,8 @@ int main(int argc, char *argv[])
 				return 0;
 			case 'm':
 				sscanf(optarg,"%s",mesh_file);
+				if (!strcmp(mesh_file, "NULL"))
+					getopt_long_option_info('m', longOpts);
 				break;
 			case 'd':
 				sscanf(optarg,"%s",model_file);
@@ -60,6 +62,7 @@ int main(int argc, char *argv[])
 				spherical = true;
 				break;
 			case '?':
+				getopt_long_help(longOpts, "3dtools2msh", " - Unknown options. Please see the help information below.");
 				break;
 			default:
 				abort();
