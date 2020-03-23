@@ -10,42 +10,51 @@ int main(int argc, char *argv[])
 	char eledata_name[1024] = "Untitled";
 	bool spherical = false;
 
+	static struct expd_option longOpts_Expd[] = 
+	{
+		{"Mesh filename of the Meshtools3D model.", "<mesh-file>", true},
+		{"Model filename of the Meshtools3D model.", "<data-file>", true},
+		{"Output name of the Gmsh file.", "<gmsh-file>", false},
+		{"Output name of the Paraview file.", "<paraview-file>", false},
+		{"Element data name of the Gmsh file. The default is \'Untitled\'.", "<eledata-name>", false},
+		{"Coordinates in the mesh file are in spherical coordinates, i.e. longitude, latitude and radius.", 0, false},
+		{"Show help information.", 0, false},
+		{0, 0, 0}
+	};
+
+	//static option *longOpts = NULL;
+	//longOpts = getopt_get_options(longOpts_Expd);
+	static struct option longOpts[] = 
+	{
+		{"meshtool-mesh", required_argument, NULL, 'm'},
+		{"meshtool-data", required_argument, NULL, 'd'},
+		{"gmsh-msh", required_argument, NULL, 'g'},
+		{"paraview-vtk", required_argument, NULL, 'p'},
+		{"gmsh-elename", required_argument, NULL, 'e'},
+		{"spherical-coordinate", no_argument, NULL, 's'},
+		{"help", no_argument, NULL, 'h'},
+		{0, 0, 0, 0}
+	};
+
 	int curr;
 	while(1)
 	{
 		int optIndex = 0;
 
-		static struct expd_option longOpts[] = 
-		{
-			{"meshtool-mesh", required_argument, NULL, 'm', "Mesh filename of the Meshtools3D model.", "<mesh-file>", true},
-			{"meshtool-data", required_argument, NULL, 'd', "Model filename of the Meshtools3D model.", "<data-file>", true},
-			{"gmsh-msh", required_argument, NULL, 'g', "Output name of the Gmsh file.", "<gmsh-file>", false},
-			{"paraview-vtk", required_argument, NULL, 'p', "Output name of the Paraview file.", "<paraview-file>", false},
-
-			{"gmsh-elename", required_argument, NULL, 'e', 
-			"Element data name of the Gmsh file. The default is \'Untitled\'.", "<eledata-name>", false},
-
-			{"spherical-coordinate", no_argument, NULL, 's', 
-			"Coordinates in the mesh file are in spherical coordinates, i.e. longitude, latitude and radius.", 0, false},
-
-			{"help", no_argument, NULL, 'h', "Show help information.", 0, false},
-			{0, 0, 0, 0, 0, 0, 0}
-		};
-
-		curr = getopt_long_expand(argc, argv, "hsm:d:g:p:e:", longOpts, &optIndex);
+		curr = getopt_long(argc, argv, "hsm:d:g:p:e:", longOpts, &optIndex);
 
 		if (curr == -1) break;
 
 		switch (curr)
 		{
 			case 'h': //显示帮助信息
-				getopt_long_help(longOpts, "3dtools2msh", " 1.0 - Convert Meshtools3D model file to Gmsh(.msh) file and Paraview(.vtk) file. \
+				getopt_long_help(longOpts, longOpts_Expd, "3dtools2msh", " 1.0 - Convert Meshtools3D model file to Gmsh(.msh) file and Paraview(.vtk) file. \
 					This program comes with ABSOLUTELY NO WARRANTY. For more information, please contact the author at zhangyiss@icloud.com (Dr. Yi Zhang).");
 				return 0;
 			case 'm':
 				sscanf(optarg,"%s",mesh_file);
 				if (!strcmp(mesh_file, "NULL"))
-					getopt_long_option_info('m', longOpts);
+					getopt_long_option_info('m', longOpts, longOpts_Expd);
 				break;
 			case 'd':
 				sscanf(optarg,"%s",model_file);
@@ -62,7 +71,7 @@ int main(int argc, char *argv[])
 				spherical = true;
 				break;
 			case '?':
-				getopt_long_help(longOpts, "3dtools2msh", " - Unknown options. Please see the help information below.");
+				getopt_long_help(longOpts, longOpts_Expd, "3dtools2msh", " - Unknown options. Please see the help information below.");
 				break;
 			default:
 				abort();
@@ -76,5 +85,7 @@ int main(int argc, char *argv[])
 	<< vtk_file << std::endl
 	<< eledata_name << std::endl
 	<< spherical << std::endl;
+
+	//if (longOpts != NULL) delete[] longOpts;
 	return 0;
 }

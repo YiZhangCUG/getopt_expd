@@ -32,26 +32,8 @@
 #include "sstream"
 #include "getopt.h"
 
-/**
- * @brief      Expanded version of the 'option' structure.
- * 
- * This library is built upon the getopt library developed by the GNU. We 
- * expand the 'option' structure to include some helpful information. Since
- * we need to keep the new structure aggregate, we declare our 'expd_option'
- * structure just as the original 'option' structure at beginning, followed 
- * some new variables.
- */
 struct expd_option
 {
-	/**
-	 * The first four variables are as the same as the original 'option' structure
-	 * that is defined in getopt.h. Their types and orders must not be changed to
-	 * ensure they can be accessed by the 'getopt' functions correctly.
-	 */
-	const char *name;
-	int has_arg;
-	int *flag;
-	int val;
 	/**
 	 * The following three variables we added here are mainly used to generate the
 	 * 'help' page. The variable 'info' represents a short message that explains what
@@ -65,25 +47,6 @@ struct expd_option
 };
 
 /**
- * @brief      Convert pointer types and call for the original getopt_long function.
- * 
- * This function takes the same arguments as the original 'getopt_long' function, except
- * that we use the 'expd_option' structure in stead of the 'option' structure. This function
- * simply convert the pointer of 'expd_option' into the type of 'option' and call for
- * the 'getopt_long' function.
- *
- * @param[in]  argc          The count of arguments
- * @param      argv          The arguments array
- * @param[in]  optstring     The optstring
- * @param      exp_longopts  The expanded longopts
- * @param      longindex     The longindex
- *
- * @return     Option value
- */
-int getopt_long_expand(int argc, char * const argv[], const char *optstring, 
-	expd_option *expd_longopts, int *longindex);
-
-/**
  * @brief      display formatted help information in terminal
  * 
  * This function will display formated help information in the terminal using
@@ -94,7 +57,7 @@ int getopt_long_expand(int argc, char * const argv[], const char *optstring,
  * @param[in]  brief         The brief information show right after the program's name.
  * @param[in]  exp_longopts  The pointer of expanded longopts
  */
-void getopt_long_help(const expd_option *expd_longopts, const char* proname, 
+void getopt_long_help(const option *longopts, const expd_option *expd_longopts, const char* proname, 
 	const char* brief);
 
 /**
@@ -103,6 +66,6 @@ void getopt_long_help(const expd_option *expd_longopts, const char* proname,
  * @param[in]  val   The option's value
  * @param      exp_longopts  The expanded longopts
  */
-void getopt_long_option_info(int val, const expd_option *expd_longopts);
+void getopt_long_option_info(int val, const option *longopts, const expd_option *expd_longopts);
 
 #endif //_GETOPT_EXPD_H
