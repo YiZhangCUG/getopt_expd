@@ -10,7 +10,7 @@ int main(int argc, char *argv[])
 	char eledata_name[1024] = "Untitled";
 	bool spherical = false;
 
-	static struct expd_option longOpts_Expd[] = 
+	static struct option_info longOpts_Expd[] = 
 	{
 		{"Mesh filename of the Meshtools3D model.", "<mesh-file>", true},
 		{"Model filename of the Meshtools3D model.", "<data-file>", true},

@@ -32,7 +32,7 @@
 #include "sstream"
 #include "getopt.h"
 
-struct expd_option
+struct option_info
 {
 	/**
 	 * The following three variables we added here are mainly used to generate the
@@ -57,7 +57,7 @@ struct expd_option
  * @param[in]  brief         The brief information show right after the program's name.
  * @param[in]  exp_longopts  The pointer of expanded longopts
  */
-void getopt_long_help(const option *longopts, const expd_option *expd_longopts, const char* proname, 
+void getopt_long_help(const option *longopts, const option_info *expd_longopts, const char* proname, 
 	const char* brief);
 
 /**
@@ -66,6 +66,6 @@ void getopt_long_help(const option *longopts, const expd_option *expd_longopts, 
  * @param[in]  val   The option's value
  * @param      exp_longopts  The expanded longopts
  */
-void getopt_long_option_info(int val, const option *longopts, const expd_option *expd_longopts);
+void getopt_long_option_info(int val, const option *longopts, const option_info *expd_longopts);
 
 #endif //_GETOPT_EXPD_H

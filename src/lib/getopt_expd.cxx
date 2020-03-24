@@ -22,7 +22,7 @@ void display_line(int f_space, int b_space, int hang_space, const winsize *ws, s
  * @param[in]  brief         The brief information show right after the program's name.
  * @param[in]  exp_longopts  The pointer of expanded longopts
  */
-void getopt_long_help(const option *longopts, const expd_option *expd_longopts, const char* proname, 
+void getopt_long_help(const option *longopts, const option_info *expd_longopts, const char* proname, 
 	const char* brief)
 {
 	// Default layout. One can only change this by recompile the library.
@@ -143,7 +143,7 @@ void getopt_long_help(const option *longopts, const expd_option *expd_longopts, 
  * @param[in]  val   The option's value
  * @param      exp_longopts  The expanded longopts
  */
-void getopt_long_option_info(int val, const option *longopts, const expd_option *expd_longopts)
+void getopt_long_option_info(int val, const option *longopts, const option_info *expd_longopts)
 {
 	//获取终端窗口的行列数
 	struct winsize w;
