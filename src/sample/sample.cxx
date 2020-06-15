@@ -22,8 +22,6 @@ int main(int argc, char *argv[])
 		{0, 0, 0}
 	};
 
-	//static option *longOpts = NULL;
-	//longOpts = getopt_get_options(longOpts_Expd);
 	static struct option longOpts[] = 
 	{
 		{"meshtool-mesh", required_argument, NULL, 'm'},
